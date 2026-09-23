@@ -1,0 +1,42 @@
+{ id: 9, name: "سلمان بن كليب بن جريس بن رافع بن نهار بن محمد الدليان", father: "كليب", birth: "25/06/1407", branch: "الخرج" }
+    ];
+
+    function handleSearch(event) {
+        if (event.key === 'Enter') {
+            performSearch();
+        }
+    }
+
+    function performSearch() {
+        const query = document.getElementById('searchInput').value.trim().toLowerCase();
+        const resultsContainer = document.getElementById('results');
+
+        if (query === "") {
+            resultsContainer.innerHTML = '<div class="empty-state">الصفحة نظيفة تماماً. اكتب اسم الفرد في الأعلى للبحث عنه.</div>';
+            return;
+        }
+
+        const filtered = familyData.filter(person => person.name.toLowerCase().includes(query));
+
+        if (filtered.length === 0) {
+            resultsContainer.innerHTML = '<div class="empty-state">لم يتم العثور على أي نتائج مطابقة لهذا الاسم.</div>';
+            return;
+        }
+
+        let html = '';
+        filtered.forEach(person => {
+            html += `
+                <div class="person-card">
+                    <h3>${person.name}</h3>
+                    <div class="person-info">
+                        <div><strong>الأب:</strong> ${person.father}</div>
+                        <div><strong>تاريخ الميلاد:</strong> ${person.birth}</div>
+                        <div><strong>الفرع / المكان:</strong> ${person.branch}</div>
+                    </div>
+                </div>
+            `;
+        });
+
+        resultsContainer.innerHTML = html;
+    }
+</script>
